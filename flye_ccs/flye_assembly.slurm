@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 
-#SBATCH --job-name=flye_1
+#SBATCH --job-name=fccs5
 #
 # Specifies using a centos7 node
 #SBATCH -C centos7
@@ -12,9 +12,9 @@
 #SBATCH --partition sched_mit_chisholm
 #
 # Number of tasks/cores for job
-#SBATCH -n 10
+#SBATCH -n 20
 #
-#SBATCH --comment="flye assembly on batch 1"
+#SBATCH --comment="flye assembly on batch 5"
 #
 # emails all notifications
 #SBATCH --mail-type=ALL
@@ -25,7 +25,7 @@
 #
 #SBATCH --mem 250000
 #
-#SBATCH --array=1012,1016,1017,1018,1019,1020,1021,1022
+#SBATCH --array=1001,1002,1003,1008,1009,1010,1011,1012
 #
 #SBATCH -o logs/flye/%j_%a_slurm_output.txt
 #SBATCH -e logs/flye/%j_%a_slurm_error.txt
@@ -44,17 +44,15 @@
 
 barcode="bc${SLURM_ARRAY_TASK_ID}"
 
-source activate samtools # activates conda env with samtools installed
-
 echo ${barcode}
-batch_dir="/nfs/chisholmlab001/kve/2021_HIFI_Genome_Closing_Project/assembly/batch1-first-pass"
+batch_dir="/nfs/chisholmlab001/kve/2021_HIFI_Genome_Closing_Project/flye_ccs/batch5"
 
-bam_path=${batch_dir}/"lima"/"lima_demultiplexed.${barcode}--${barcode}.bam"
-fastq_path=${batch_dir}/"lima"/"lima_demultiplexed.${barcode}.fastq"
+fastq_path=${batch_dir}/"ccs_demul"/"outputs"/"demultiplex.${barcode}--${barcode}.hifi_reads.fastq.gz"
+
 fly_bc_dir=${batch_dir}/"flye"/${barcode}
 
 mkdir -p ${fly_bc_dir}
 
-samtools fastq ${bam_path} > ${fastq_path}
+source activate flye
 
-flye --pacbio-raw ${fastq_path} --out-dir ${fly_bc_dir}
+flye --pacbio-hifi ${fastq_path} --out-dir ${fly_bc_dir} -t ${SLURM_NTASKS}
