@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 
-#SBATCH --job-name=canu5
+#SBATCH --job-name=canu
 #
 # Specifies using a centos7 node
 #SBATCH -C centos7
@@ -12,9 +12,9 @@
 #SBATCH --partition sched_mit_chisholm
 #
 # Number of tasks/cores for job
-#SBATCH -n 10
+#SBATCH -n 20
 #
-#SBATCH --comment="canu assembly on batch5 subreadset"
+#SBATCH --comment="canu assembly on subreadset"
 #
 # emails all notifications
 #SBATCH --mail-type=ALL
@@ -41,13 +41,20 @@
 #           1015,1016,1017,1018,1019,1020,1021,1022
 # batch 5: "bc1001" "bc1002" "bc1003" "bc1008" "bc1009" "bc1010" "bc1011" "bc1012"
 #           1001,1002,1003,1008,1009,1010,1011,1012
+# batch 6: "bc1010" "bc1011" "bc1012" "bc1015" "bc1016" "bc1017" "bc1018" "bc1019"
+#           1010,1011,1012,1015,1016,1017,1018,1019
+# batch 7: "bc1015" "bc1016" "bc1017" "bc1018" "bc1019" "bc1020" "bc1021" "bc1022"
+#           1015,1016,1017,1018,1019,1020,1021,1022
+# batch 8: "bc1001" "bc1002" "bc1003" "bc1008" "bc1009" "bc1010" "bc1011" "bc1012"
+#           1001,1002,1003,1008,1009,1010,1011,1012
+
 
 barcode="bc${SLURM_ARRAY_TASK_ID}"
 
 # source activate samtools # activates conda env with samtools installed
 
 echo ${barcode}
-batch_dir="/nfs/chisholmlab001/kve/2021_HIFI_Genome_Closing_Project/canu_subreadset/batch5"
+batch_dir="/nfs/chisholmlab001/kve/2021_HIFI_Genome_Closing_Project/canu_subreadset/batch8"
 
 # bam_path=${batch_dir}/"lima"/"lima_demultiplexed.${barcode}--${barcode}.bam"
 fastq_path=${batch_dir}/"lima"/"lima_demultiplexed.${barcode}.fastq"
@@ -62,4 +69,5 @@ mkdir -p ${fly_bc_dir}
    -d ${fly_bc_dir} \
    genomeSize=3m \
    -pacbio ${fastq_path} \
-   useGrid=false
+   useGrid=false \
+   batThreads="${SLURM_NTASKS}"

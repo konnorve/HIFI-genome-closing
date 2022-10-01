@@ -28,9 +28,9 @@
 #SBATCH -o logs/ccs_demul/%j_slurm_output.txt
 #SBATCH -e logs/ccs_demul/%j_slurm_error.txt
 
-raw_reads_path="/nfs/chisholmlab001/chisholmlab/experiment_repository/2021/HIFI_Genome_Closing_Project/220718Chi/raw/1_A01/m54030R1_220728_180547.subreadset.xml"
+raw_reads_path="/nfs/chisholmlab001/chisholmlab/experiment_repository/2021/HIFI_Genome_Closing_Project/220826Chi/raw2/1_A01/m54030R1_220923_142224.subreadset.xml"
 barcodes_xml_path="/nfs/chisholmlab001/chisholmlab/experiment_repository/2021/HIFI_Genome_Closing_Project/analysis/raw_barcodes/Sequel_384_barcodes_v1.xml"
-demul_out_path="/nfs/chisholmlab001/kve/2021_HIFI_Genome_Closing_Project/flye_ccs/batch7/ccs_demul"
+demul_out_path="/nfs/chisholmlab001/kve/2021_HIFI_Genome_Closing_Project/flye_ccs/batch8/ccs_demul_2"
 
 mkdir -p ${demul_out_path}
 
